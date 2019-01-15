@@ -3,6 +3,7 @@
 // FETCH ( DEFINE FROM WHERE TO FETCH THE DATA, FROM CACHE OR FROM SERVER )
 
 const staticAssets = [
+  "/",
   "index.html",
   "answers.html",
   "view_Ads.html" /* HTML FILES */,
@@ -11,8 +12,10 @@ const staticAssets = [
   "css/commonStyle.css",
   "css/indexStyle.css",
   "css/model.css",
+  "css/fontawesome.css",
   "css/view_Ads.css" /*CSS FILES*/,
   "js/bootstrap.min.js",
+  "js/fontawesome.js",
   "js/chatRoom.js",
   "js/chatsMeta.js",
   "js/Favourites.js",
@@ -27,7 +30,11 @@ const staticAssets = [
   "Assets/Images/empty_img.jpg",
   "Assets/Images/footer-back.png",
   "Assets/Images/Olx logo.svg",
-  "Assets/Images/search-background.png" /*IMAGE FILES*/
+  "Assets/Images/search-background.png", /*IMAGE FILES*/
+  /*Manifest*/
+  "manifest.json",
+  /*Fonts*/
+  "Assets/Fonts",
 ];
 
 var staticCache = "v1";
@@ -73,7 +80,7 @@ self.addEventListener("fetch", event => {
   }
   //PROBLEM IN DYNAMIC CACHING IN MESSAGING
   // else if(){}
-   return event.respondWith(networkFirst(req));
+  return event.respondWith(networkFirst(req));
 });
 
 async function cacheFirst(req) {
@@ -82,10 +89,10 @@ async function cacheFirst(req) {
     .then(cacheRes => {
       return cacheRes || fetch(req);
     })
-    .catch(err=>{
+    .catch(err => {
       console.log(err);
       return;
-    })
+    });
 }
 
 async function networkFirst(req) {

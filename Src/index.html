@@ -9,12 +9,7 @@
       Pakistan, Vehicles in Pakistan, Real Estate in Pakistan, Community in
       Pakistan,...)
     </title>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-      integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
-      crossorigin="anonymous"
-    />
+    <link rel="stylesheet" href="./css/fontawesome.css" />
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/commonStyle.css" />
     <link rel="stylesheet" href="css/indexStyle.css" />
@@ -519,12 +514,9 @@
       const favouriteKey = localStorage.getItem("userFavouriteKey")
         ? JSON.parse(localStorage.getItem("userFavouriteKey"))
         : [];
-      // const favourites = localStorage.getItem("userFavourites")
-      //   ? JSON.parse(localStorage.getItem("userFavourites"))
-      //   : [];
       localStorage.setItem("userFavouriteKey", JSON.stringify(favouriteKey));
-      // localStorage.setItem("userFavouriteKey", JSON.stringify(favourites));
     </script>
+    <script src="js/fontawesome.js"></script>
     <script src="app.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
