@@ -20,3 +20,19 @@ firebase.messaging().onMessage(payload => {
 //=====================================================================//
 //===================***********************************=================//
 //=====================================================================//
+
+//=====================================================================//
+//===================SET THE TOKKEN TO CURRENT AUTH NODE=================//
+//=====================================================================//
+
+messaging.getToken().then(currentToken => {
+  const tokkensRef = firebase.database().ref("FCM_Tokken");
+  const currentAuth = localStorage.getItem("currentAuthId");
+  if (currentAuth) {
+    const authNodeRef = currentAuth.substr(0, currentAuth.indexOf("."));
+    tokkensRef
+      .child(authNodeRef)
+      .child(currentToken)
+      .set(true);
+  }
+});
