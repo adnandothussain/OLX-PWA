@@ -10,6 +10,7 @@
       Pakistan,...)
     </title>
     <link rel="stylesheet" href="./css/fontawesome.css" />
+    <link rel="stylesheet" href="css/iziToast.min.css">
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/commonStyle.css" />
     <link rel="stylesheet" href="css/indexStyle.css" />
@@ -498,7 +499,8 @@
       );
       messaging
         .requestPermission()
-        .then(function() {
+        .then(function(e) {
+          console.log("requestPermission==>", e);
           return messaging.getToken();
         })
         .then(currentToken => {
@@ -518,6 +520,7 @@
     </script>
     <script src="js/fontawesome.js"></script>
     <script src="app.js"></script>
+    <script src="js/iziToast.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="js/jaaulde-cookies.js"></script>
@@ -525,6 +528,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/Authentication.js"></script>
     <script src="js/model.js"></script>
+    <script src="pushMsg.js"></script>
     <script src="js/Favourites.js"></script>
     <script src="js/filterAds.js"></script>
   </body>

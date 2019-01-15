@@ -6,3 +6,5 @@ if ('serviceWorker' in navigator) {
             console.log('Unable to register serivce worker',err);
         });
 }
+
+

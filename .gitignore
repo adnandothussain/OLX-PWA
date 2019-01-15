@@ -10,7 +10,8 @@
 /build
 
 #cloud function
-/functions
+/functions/node_modules
+.firebase
 
 #backups
 /Backups
@@ -20,6 +21,9 @@
 
 #Extra assets
 /Src/Assets/Extra
+
+#Hosted dit
+/public/*
 
 # misc
 .DS_Store

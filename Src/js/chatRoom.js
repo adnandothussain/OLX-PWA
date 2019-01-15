@@ -2,6 +2,7 @@
 var userChatsRef = firebase.database().ref("UserChats");
 var chatsRef = firebase.database().ref("Chats");
 var usersRef = firebase.database().ref("Users");
+var fcmTokkensRef = firebase.database().ref("FCM_Tokken");
 var chatContent = document.getElementById("chatContent");
 var currentChat_Id;
 var authUserName = "";
@@ -76,7 +77,7 @@ function prepareChatRoom() {
 // FILTER CLASSES AND DISPLAY THE HTML
 //**********************************************************************************
 function fetchMessages() {
-  console.log('Fetching message');
+  console.log("Fetching message");
   messagesRef.child(currentChat_Id).on("child_added", snapshot => {
     //GET DATA IN JSON AND SEND IT TO DISPLAY METHOD
     var obj = snapshot.val();
@@ -112,7 +113,11 @@ function buildMessageHTML(messageObj) {
               messageObj.timestamp
             ).toLocaleString()}</i></span>
             <a href="javascript:void(0)" class="chat-img">
-                <img src="${messageObj.image ? messageObj.image :'Assets/Images/Unknown.png'}" 
+                <img src="${
+                  messageObj.image
+                    ? messageObj.image
+                    : "Assets/Images/Unknown.png"
+                }" 
                 alt="${messageObj.name}" class="">
             </a>
             <div class="talk-bubble tri-right round right-in">
@@ -180,6 +185,7 @@ function pushData() {
       .child(currentChat_Id)
       .set(true);
   }
+  // getReceiverTokkens(receiverId);
   inputFeild.value = "";
 }
 //**********************************************************************************
@@ -240,12 +246,20 @@ function getQueryStringValue(key) {
   );
 }
 
+//Method to fetch the msg receiver tokkens
+// async function getReceiverTokkens(receiverId) {
+//   console.log("getReceiverTokkens==>", receiverId);
+//   // fcmTokkensRef
+//   //   .orderByKey()
+//   //   .equalTo(receiverId.substr(0, receiverId.indexOf(".")))
+//   //   .once("value")
+//   //   .then(snap => {
+//   //     console.log('getReceiverTokkens==>',snap.val());
+//   //   });
+// }
+
 //METHOD TO GET THE META CONTAINER IF THE MESSAGE WAS SENT BY ANY USER
 //IT WILL CHANGE THE LAST MESSAGE IN THAT PARTICULAR CONTAINER ONLY
 function getMessageMetaContainer(chats_Id) {
   return document.getElementById(chats_Id);
 }
-
-messaging.onMessage(payload => {
-  console.log("payload", payload);
-});

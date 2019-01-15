@@ -3,10 +3,10 @@ var registerContainer = document.querySelector("#registerContainer");
 var loginForm = null;
 var registerForm = null;
 var userObj = null;
-// const messaging = firebase.messaging();
-// messaging.usePublicVapidKey(
-//   "BA9gdlxFcGs_AA7yFMwEOJQ26hutJqKxq-qmxbCIf9d0LypVzGWe3k1D5lwYmX2kZ2C0ahy0wfgcJQJZyPDEXhg"
-// );
+const messaging = firebase.messaging();
+messaging.usePublicVapidKey(
+  "BA9gdlxFcGs_AA7yFMwEOJQ26hutJqKxq-qmxbCIf9d0LypVzGWe3k1D5lwYmX2kZ2C0ahy0wfgcJQJZyPDEXhg"
+);
 showLoginForm();
 
 function showRegisterForm() {
@@ -157,69 +157,71 @@ function showStepTwoRegisteration() {
 }
 
 //showStepTwoRegisteration();
-function stepTwoRegistration() {
+async function stepTwoRegistration() {
   var form = document.getElementById("stepTwoForm");
   var textBoxName = form.getElementsByClassName("name")[0];
   var userImg = form.getElementsByClassName("user-img")[0];
   var textBoxContact = form.getElementsByClassName("contact")[0];
   var notValidates = form.getElementsByClassName("alert");
-  if (!(notValidates.length > 0)) {
-    let image = getUserImage(form);
-    showSpinModel();
-    let Obj = {
-      name: textBoxName.value,
-      contact: textBoxContact.value,
-      email: userObj.email,
-      password: userObj.password,
-      image: image
-    };
-    let JSONObj = JSON.stringify(Obj);
-    fetch("http://localhost:5001/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      },
-      body: JSONObj
-    })
-      .then(data => {
-        console.log(data);
-        return;
-        // if (data.status) { return messaging.requestPermission()}
-      })
-      //=====================FOR PUSH NOTIFICATION======================
-      // .then(() => {
-      //   console.log("getting tokken");
-      //   return messaging.getToken();
-      // })
-      // .then(currentTokken => {
-      //   if (currentTokken) {
-      //     let em = Obj.email;
-      //     console.log("current device tokken", currentTokken);
-      //     console.log("email", em.substr(0, em.indexOf(".")));
-      //     setUserTokken(em.substr(0, em.indexOf(".")), currentTokken);
-      //   } else {
-      //     console.log("No Tokken found", currentTokken);
-      //   }
-      //   return;
-      // })
-      //============================================================//
-      .then(() => {
-        console.log("all done");
+  try {
+    if (!(notValidates.length > 0)) {
+      let image = getUserImage(form);
+      showSpinModel();
+      let Obj = {
+        name: textBoxName.value,
+        contact: textBoxContact.value,
+        email: userObj.email,
+        password: userObj.password,
+        image: image
+      };
+      let JSONObj = JSON.stringify(Obj);
+      const res = await fetch("http://localhost:5001/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSONObj
+      });
+      console.log("registered with status==>", res.status);
+      if (res.status === 200) {
+        //=====================FOR PUSH NOTIFICATION======================
+        messaging
+          .requestPermission()
+          .then(() => {
+            return messaging.getToken();
+          })
+          .then(tokken => {
+            //If the tokken exist than add it to db under the node of user
+            console.log("current device tokken", tokken);
+            if (tokken) {
+              let em = Obj.email;
+              console.log("email", em.substr(0, em.indexOf(".")));
+              setUserTokken(em.substr(0, em.indexOf(".")), tokken);
+            }
+          })
+          .catch(err => {
+            console.log("err from .cath==>", err);
+          });
         var header = `<h2 class="heading text-medium text-green">User Registered Successfully</h2>
-            <span class="model-close text-large hover-text-blue"><i class="fa fa-window-close"></i></span>`;
-        var body = `<p class="text-light-blue">Keep enjoying our olx service, before that please read our terms and conditions and 
-            OLX safety tips first carefully</p>`;
+              <span class="model-close text-large hover-text-blue"><i class="fa fa-window-close"></i></span>`;
+        var body = `<p class="text-light-blue">Keep enjoying our olx service, before that please read our terms and conditions and
+              OLX safety tips first carefully</p>`;
         hideSpinModel();
         showModel(header, body);
         setTimeout(() => {
           window.close();
         }, 7000);
-        return onAuthStateChange({ email: Obj.email, password: Obj.password });
-      })
-      .catch(e => {
-        console.log("Error!!", e);
-      });
-    userObj = null;
+        return onAuthStateChange({
+          email: Obj.email,
+          password: Obj.password
+        });
+      }
+      userObj = null;
+      return;
+    }
+    alert("Unable to register the user");
+  } catch (err) {
+    console.log(err);
   }
 }
 

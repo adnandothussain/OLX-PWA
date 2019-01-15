@@ -13,6 +13,7 @@ const staticAssets = [
   "css/indexStyle.css",
   "css/model.css",
   "css/fontawesome.css",
+  "css/iziToast.min.css",
   "css/view_Ads.css" /*CSS FILES*/,
   "js/bootstrap.min.js",
   "js/fontawesome.js",
@@ -26,15 +27,18 @@ const staticAssets = [
   "js/jquery.min.js",
   "js/model.js",
   "js/tether.min.js",
+  "js/iziToast.min.js",
   "js/view_Ads.js" /*JS FILES*/,
   "Assets/Images/empty_img.jpg",
   "Assets/Images/footer-back.png",
   "Assets/Images/Olx logo.svg",
-  "Assets/Images/search-background.png", /*IMAGE FILES*/
+  "Assets/Images/search-background.png" /*IMAGE FILES*/,
   /*Manifest*/
   "manifest.json",
   /*Fonts*/
   "Assets/Fonts",
+  /*PUSH MSG JS*/
+  "pushMsg.js"
 ];
 
 var staticCache = "v1";
